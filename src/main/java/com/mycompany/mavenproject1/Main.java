@@ -12,9 +12,10 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        StudentManagementSystem.testAddStudent();
         printMainMenu();
     }
-
+    
     public static void printMainMenu() {
         StudentManagementSystem sms = new StudentManagementSystem();
 
@@ -26,7 +27,7 @@ public class Main {
         System.out.println("5. Delete Student by ID");
         System.out.println("6. Exit");
         System.out.println("Selct an option: ");
-        StudentManagementSystem.testAddStudent();
+        
         int choice = validChoice(6);
 
         switch (choice) {

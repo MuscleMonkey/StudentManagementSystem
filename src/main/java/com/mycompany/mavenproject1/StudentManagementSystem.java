@@ -90,7 +90,7 @@ public class StudentManagementSystem {
         String id = scanner.nextLine();
         
         for (Student currentStudent: student) {
-            if (currentStudent.getId() == id) {
+            if (currentStudent.getId().equals(id)) {
                 tempStudent = currentStudent;
                 break;
             }
@@ -131,7 +131,7 @@ public class StudentManagementSystem {
         String id = scanner.nextLine();
         
         for (int i = 0; i < student.size(); i++) {
-            if (student.get(i).getId() == id) {
+            if (student.get(i).getId().equals(id)) {
                 student.remove(i);
                 return;
             }
