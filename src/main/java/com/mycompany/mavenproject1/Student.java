@@ -4,7 +4,6 @@
  */
 package com.mycompany.mavenproject1;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -32,25 +31,6 @@ public class Student {
     this.m_id = id;
   }
 
-  public void updateId() {
-    System.out.println("Update ID");
-    System.out.println("Enter id: ");
-
-    int id = Main.getValidInteger();
-
-    ArrayList<Student> students = new StudentManagementSystem().getStudents();
-
-    for (Student currStudents : students) {
-      if (currStudents.getId() == id) {
-        System.out.println("Student " + id + " already exist.");
-        return;
-      }
-    }
-
-    setId(id);
-    System.out.println("Id succesfully changed");
-  }
-
   public String getName() {
     return m_name;
   }
@@ -61,8 +41,7 @@ public class Student {
 
   public void updateName() {
     Scanner scanner = new Scanner(System.in);
-    System.out.println("Update Name");
-    System.out.println("Enter name: ");
+    System.out.print("Enter updated Name: ");
     String name = scanner.nextLine();
 
     setName(name);
@@ -77,8 +56,7 @@ public class Student {
   }
 
   public void updateGrade() {
-    System.out.println("Update Grade");
-    System.out.println("Enter Grade: ");
+    System.out.print("Enter updated Grade: ");
     double grade = Main.getValidDouble();
 
     setGrade(grade);
@@ -94,21 +72,21 @@ public class Student {
 
   public void updateEmail() {
     Scanner scanner = new Scanner(System.in);
-    System.out.println("Update Email");
-    System.out.println("Enter Email: ");
+    System.out.print("Enter updated Email: ");
     String email = scanner.next();
     setEmail(email);
   }
-
+  
   @Override
   public String toString() {
-    return "Student ID: "
+    return "\nStudent ID: "
         + this.getId()
         + "\nName: "
         + this.getName()
         + "\nGrade: "
         + this.m_grade
         + "\nEmail: "
-        + this.m_email;
+        + this.m_email
+        + "\n";
   }
 }

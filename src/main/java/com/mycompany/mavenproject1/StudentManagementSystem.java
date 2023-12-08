@@ -24,22 +24,15 @@ public class StudentManagementSystem {
 
   public void addStudent() {
     Scanner scanner = new Scanner(System.in);
-    System.out.println("Enter Id: ");
-    //think of id validation
-    int id = Main.getValidInteger();
-    System.out.println("Enter name: ");
+    System.out.print("Enter Id: ");
+    int id = setAvailableId();
+    System.out.print("Enter name: ");
     String name = scanner.nextLine();
-    System.out.println("Enter grade: ");
+    System.out.print("Enter grade: ");
     double grade = Main.getValidDouble();
-    System.out.println("Enter email: ");
+    System.out.print("Enter email: ");
     String email = scanner.next();
 
-    Student currStudent = searchId();
-
-    if (currStudent != null) {
-      System.out.println("Student " + id + " already exist");
-      return;
-    }
     Student stdnt = new Student(id, name, grade, email);
 
     student.add(stdnt);
@@ -54,83 +47,120 @@ public class StudentManagementSystem {
       return;
     }
     for (Student currentStudent : student) {
-      System.out.printf("\n%s\n", currentStudent);
+      System.out.println(currentStudent);
     }
     System.out.println();
   }
 
   public void searchStudentById() {
+
     System.out.println("Search Student");
+    System.out.print("Enter Student by ID: ");
 
-    Student currentStudent = searchId();
+    int id = Main.getValidInteger();
 
-    if (currentStudent != null) {
-      System.out.println(currentStudent);
-    } else {
-      System.out.println("student not found.");
+    for (Student currentStudent : student) {
+      if (currentStudent.getId() == id) {
+        System.out.println("Student found: ");
+        System.out.println(currentStudent);
+        return;
+      }
     }
+    System.out.printf("Student %d not found\n", id);
   }
 
   public void updateStudentInformationById() {
 
-    Student tempStudent = null;
-
-    System.out.println("Update Student Information");
-    System.out.println("Enter Student ID to update: ");
-
+    System.out.println(
+        "If you wish to update only one field can just enter [-1] else you can proceed below.");
+    System.out.print("Enter Student ID to update: ");
     int id = Main.getValidInteger();
+    if (id == -1) {
+      updateSingleStudentInformation();
+    } else {
 
-    tempStudent = searchId();
+      for (Student currentStudent : student) {
+        if (currentStudent.getId() == id) {
+          currentStudent.updateName();
 
-    if (tempStudent == null) {
-      System.out.println("no id " + id);
+          currentStudent.updateGrade();
+
+          currentStudent.updateEmail();
+          return;
+        }
+      }
+      System.out.printf("Student %d doesn't exist.\n", id);
+    }
+  }
+
+  void updateSingleStudentInformation() {
+    
+    System.out.print("Enter Student ID to update: ");
+   
+    Student currStudent = searchId();
+    if (currStudent == null)
       return;
-    }
+    System.out.println("Select the field you want to update: ");
+    System.out.println("1. Name");
+    System.out.println("2. Grade");
+    System.out.println("3. Email");
+    System.out.print("Select an option: ");
+    int choose = Main.validChoice(3);
 
-    System.out.println("2. name");
-    tempStudent.updateName();
-    System.out.println("3. grade");
-    tempStudent.updateGrade();
-
-    System.out.println("4. email");
-    tempStudent.updateEmail();
-
-    System.out.println("Enter the number of your choice: ");
-
-    int choice = Main.validChoice(4);
-
-    if (choice == 1) {
-
-    } else if (choice == 2) {
-    } else if (choice == 3) {
-    } else if (choice == 4) {
-    }
-
-    updateStudentInformationById();
+    if (choose == 1) currStudent.updateName();
+    else if (choose == 2) currStudent.updateGrade();
+    else if (choose == 3) currStudent.updateEmail();
+    System.out.println("Changes applied");
   }
 
   public void deleteStudentById() {
-    System.out.println("Delete Student");
-    int id = Main.getValidInteger();
-
-    for (int i = 0; i < student.size(); i++) {
-      if (student.get(i).getId() == id) {
-        student.remove(i);
-        return;
-      }
-    }
-    System.out.println("no student has been removed");
+    
+    int id;
+    do {
+      System.out.println("Enter Student ID to delete: ");
+      id = searchId();
+      if (id != -1)
+        student.remove(student.get(id));
+      
+    } while (id >= -1);
+    System.out.println("");
   }
 
-  public Student searchId() {
-    System.out.println("Enter Student ID: ");
-    int id = Main.getValidInteger();
-    for (Student currentStudent : student) {
-      if (currentStudent.getId() == id) {
-        return currentStudent;
+  public static int setAvailableId() {
+    int id;
+    boolean flag;
+
+    do {
+      id = Main.getValidInteger();
+      flag = false;
+      for (Student currStudent : student) {
+        if (currStudent.getId() == id) {
+          System.out.println(id + "already exist");
+          System.out.print("Enter a new ID: ");
+          flag = true;
+          break;
+        }
       }
+    } while (flag);
+    return id;
+  }
+
+  public static int searchId() {
+    while (true) {
+      int id = Main.getValidInteger();
+  
+      for (int i = 0; i < student.size(); i++) {
+          if (student.get(i).getId() == id) {
+            return i;
+        }
+      }
+      // return index
+      System.out.printf(
+          "Student %d doesn't exist\nYour can enter -1 to return to Menu: ", student.get(id).getName());
+      if (id == -1)
+        return -1;
     }
-    return null;
+    
   }
 
   public static void testAddStudent() {

@@ -9,10 +9,14 @@ import java.util.Scanner;
  * @author rcurzon
  */
 public class Main {
-
-  public static void main(String[] args) {
+  public Main() {
+    //    getConnection();
     StudentManagementSystem.testAddStudent();
     printMainMenu();
+  }
+
+  public static void main(String[] args) {
+    Main main = new Main();
   }
 
   public static void printMainMenu() {
@@ -25,7 +29,7 @@ public class Main {
     System.out.println("4. Update Student Information");
     System.out.println("5. Delete Student by ID");
     System.out.println("6. Exit");
-    System.out.println("Selct an option: ");
+    System.out.print("Selct an option: ");
 
     int choice = validChoice(6);
 
