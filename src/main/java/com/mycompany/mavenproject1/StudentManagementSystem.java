@@ -53,8 +53,6 @@ public class StudentManagementSystem {
   }
 
   public void searchStudentById() {
-
-    System.out.println("Search Student");
     System.out.print("Enter Student by ID: ");
 
     int id = Main.getValidInteger();
@@ -94,12 +92,18 @@ public class StudentManagementSystem {
   }
 
   void updateSingleStudentInformation() {
+
     
-    System.out.print("Enter Student ID to update: ");
-   
-    Student currStudent = searchId();
-    if (currStudent == null)
-      return;
+    boolean flag;
+    int index;
+    
+    do {
+      flag = false;
+////////////////////////      System.out.print("You can enter -1 to exit\nEnter Student ID to update: ");
+      index = searchStudentId();
+      if (index == 0) flag = true;
+    } while (flag);
+
     System.out.println("Select the field you want to update: ");
     System.out.println("1. Name");
     System.out.println("2. Grade");
@@ -107,23 +111,32 @@ public class StudentManagementSystem {
     System.out.print("Select an option: ");
     int choose = Main.validChoice(3);
 
-    if (choose == 1) currStudent.updateName();
-    else if (choose == 2) currStudent.updateGrade();
-    else if (choose == 3) currStudent.updateEmail();
+    if (choose == 1) {
+      student.get(index).updateName();
+    } else if (choose == 2) {
+      student.get(index).updateGrade();
+    } else if (choose == 3) {
+      student.get(index).updateEmail();
+    }
     System.out.println("Changes applied");
   }
 
   public void deleteStudentById() {
+    boolean flag;
+    int index;
     
-    int id;
     do {
-      System.out.println("Enter Student ID to delete: ");
-      id = searchId();
-      if (id != -1)
-        student.remove(student.get(id));
+      flag = false;
       
-    } while (id >= -1);
-    System.out.println("");
+      System.out.print("You can enter -1 to exit\nEnter Student ID to delete: ");
+
+      index = searchStudentId();
+      
+      if (index == 0) flag = true;
+      
+    } while (flag);
+    System.out.printf("Student %d succesfully deleted!\n", student.get(index).getId());
+    student.remove(student.get(index));
   }
 
   public static int setAvailableId() {
@@ -145,22 +158,18 @@ public class StudentManagementSystem {
     return id;
   }
 
-  public static int searchId() {
-    while (true) {
-      int id = Main.getValidInteger();
-  
-      for (int i = 0; i < student.size(); i++) {
-          if (student.get(i).getId() == id) {
-            return i;
-        }
-      }
-      // return index
-      System.out.printf(
-          "Student %d doesn't exist\nYour can enter -1 to return to Menu: ", student.get(id).getName());
-      if (id == -1)
-        return -1;
-    }
+  public static int searchStudentId() {
+    int i;
+    int ids = Main.getValidInteger();
     
+    if (ids == -1) return -1;
+    for (i = 0; i < student.size(); i++) {
+      if (student.get(i).getId() == ids) {
+        return i;
+      }
+    }
+    System.out.printf("Student %d not found!\n", ids);
+    return 0;
   }
 
   public static void testAddStudent() {
