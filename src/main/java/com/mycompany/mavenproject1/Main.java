@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Main {
   public Main() {
     //    getConnection();
-    StudentManagementSystem.testAddStudent();
+//    StudentManagementSystem.testAddStudent();
     printMainMenu();
   }
 

@@ -5,6 +5,7 @@
 package com.mycompany.mavenproject1;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 /**
@@ -14,8 +15,6 @@ public class StudentManagementSystem {
 
   private static final ArrayList<Student> student = new ArrayList<>();
 
-  ;
-
   public StudentManagementSystem() {}
 
   public ArrayList<Student> getStudents() {
@@ -23,20 +22,24 @@ public class StudentManagementSystem {
   }
 
   public void addStudent() {
-    Scanner scanner = new Scanner(System.in);
-    System.out.print("Enter Id: ");
-    int id = setAvailableId();
-    System.out.print("Enter name: ");
-    String name = scanner.nextLine();
-    System.out.print("Enter grade: ");
-    double grade = Main.getValidDouble();
-    System.out.print("Enter email: ");
-    String email = scanner.next();
+    while (true) {
+      System.out.println("Enter -1 to exit!");
+      Scanner scanner = new Scanner(System.in);
+      System.out.print("Enter Id: ");
+      int id = setAvailableId();
+      if (id == -1) return;
+      System.out.print("Enter name: ");
+      String name = scanner.nextLine();
+      System.out.print("Enter grade: ");
+      double grade = Main.getValidDouble();
+      System.out.print("Enter email: ");
+      String email = scanner.next();
 
-    Student stdnt = new Student(id, name, grade, email);
+      Student stdnt = new Student(id, name, grade, email);
 
-    student.add(stdnt);
-    System.out.println("Student " + id + " has been added.");
+      student.add(stdnt);
+      System.out.println("Student " + id + " has been added.");
+    }
   }
 
   public void printAllStudents() {
@@ -49,28 +52,32 @@ public class StudentManagementSystem {
     for (Student currentStudent : student) {
       System.out.println(currentStudent);
     }
-    System.out.println();
   }
 
   public void searchStudentById() {
-    System.out.print("Enter Student by ID: ");
+    boolean found;
 
-    int id = Main.getValidInteger();
+    do {
+      found = false;
+      System.out.print("Enter -1 to exit!\nEnter Student by ID: ");
+      int id = Main.getValidInteger();
 
-    for (Student currentStudent : student) {
-      if (currentStudent.getId() == id) {
-        System.out.println("Student found: ");
-        System.out.println(currentStudent);
-        return;
+      if (id == -1) return;
+
+      for (Student currentStudent : student) {
+        if (currentStudent.getId() == id) {
+          found = true;
+          System.out.println("Student found: ");
+          System.out.println(currentStudent);
+        }
       }
-    }
-    System.out.printf("Student %d not found\n", id);
+      if (!found) System.out.printf("Student %d not found\n", id);
+    } while (true);
   }
 
   public void updateStudentInformationById() {
 
-    System.out.println(
-        "If you wish to update only one field can just enter [-1] else you can proceed below.");
+    System.out.println("To update one field only from a student just enter -1.");
     System.out.print("Enter Student ID to update: ");
     int id = Main.getValidInteger();
     if (id == -1) {
@@ -93,50 +100,68 @@ public class StudentManagementSystem {
 
   void updateSingleStudentInformation() {
 
-    
-    boolean flag;
-    int index;
-    
-    do {
-      flag = false;
-////////////////////////      System.out.print("You can enter -1 to exit\nEnter Student ID to update: ");
-      index = searchStudentId();
-      if (index == 0) flag = true;
-    } while (flag);
+    while (true) {
 
-    System.out.println("Select the field you want to update: ");
-    System.out.println("1. Name");
-    System.out.println("2. Grade");
-    System.out.println("3. Email");
-    System.out.print("Select an option: ");
-    int choose = Main.validChoice(3);
+      System.out.print("Enter -1 to Exit\nEnter Student ID to update: ");
+      int id = Main.getValidInteger();
 
-    if (choose == 1) {
-      student.get(index).updateName();
-    } else if (choose == 2) {
-      student.get(index).updateGrade();
-    } else if (choose == 3) {
-      student.get(index).updateEmail();
+      if (id == -1) return;
+
+      for (Iterator<Student> iterator = student.iterator(); iterator.hasNext(); ) {
+        Student tempStudent = iterator.next();
+        if (tempStudent.getId() == id) {
+          System.out.println("Select the field you want to update: ");
+          System.out.println("1. Name");
+          System.out.println("2. Grade");
+          System.out.println("3. Email");
+          System.out.print("Select an option: ");
+          int choose = Main.validChoice(3);
+
+          switch (choose) {
+            case 1:
+              tempStudent.updateName();
+              break;
+            case 2:
+              tempStudent.updateGrade();
+              break;
+            case 3:
+              tempStudent.updateEmail();
+              break;
+            default:
+              break;
+          }
+          System.out.println("Changes applied");
+        }
+      }
     }
-    System.out.println("Changes applied");
   }
 
   public void deleteStudentById() {
     boolean flag;
     int index;
-    
+
     do {
-      flag = false;
-      
+      flag = true;
+
       System.out.print("You can enter -1 to exit\nEnter Student ID to delete: ");
 
-      index = searchStudentId();
-      
-      if (index == 0) flag = true;
-      
+      int id = Main.getValidInteger();
+      if (id == -1) flag = false;
+      index = 0;
+      for (Iterator<Student> iterator = student.iterator(); iterator.hasNext(); ) {
+        Student currStudent = iterator.next();
+        if (currStudent.getId() == id) {
+          System.out.printf("Student %s has be removed.\n", currStudent.getName());
+          iterator.remove();
+          break;
+        }
+        if (!iterator.hasNext()) {
+          System.out.println("No Student has been removed!");
+        }
+      }
+
     } while (flag);
-    System.out.printf("Student %d succesfully deleted!\n", student.get(index).getId());
-    student.remove(student.get(index));
+    System.out.println("deletion exit");
   }
 
   public static int setAvailableId() {
@@ -144,11 +169,11 @@ public class StudentManagementSystem {
     boolean flag;
 
     do {
-      id = Main.getValidInteger();
       flag = false;
+      id = Main.getValidInteger();
       for (Student currStudent : student) {
         if (currStudent.getId() == id) {
-          System.out.println(id + "already exist");
+          System.out.println("Student" + id + " already exist");
           System.out.print("Enter a new ID: ");
           flag = true;
           break;
@@ -156,20 +181,6 @@ public class StudentManagementSystem {
       }
     } while (flag);
     return id;
-  }
-
-  public static int searchStudentId() {
-    int i;
-    int ids = Main.getValidInteger();
-    
-    if (ids == -1) return -1;
-    for (i = 0; i < student.size(); i++) {
-      if (student.get(i).getId() == ids) {
-        return i;
-      }
-    }
-    System.out.printf("Student %d not found!\n", ids);
-    return 0;
   }
 
   public static void testAddStudent() {
