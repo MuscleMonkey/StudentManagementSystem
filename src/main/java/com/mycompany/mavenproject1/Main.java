@@ -6,19 +6,18 @@ package com.mycompany.mavenproject1;
 import java.util.Scanner;
 
 /**
- * @author rcurzon
+ * @author
  */
 public class Main {
   public Main() {
-    //    getConnection();
-//    StudentManagementSystem.testAddStudent();
+    StudentManagementSystem.testAddStudent();
     printMainMenu();
   }
 
   public static void main(String[] args) {
     Main main = new Main();
   }
-
+  // Main
   public static void printMainMenu() {
     StudentManagementSystem sms = new StudentManagementSystem();
 
@@ -57,7 +56,7 @@ public class Main {
     }
     printMainMenu();
   }
-
+  // A function to prevent user from inputing invalid choice
   public static int validChoice(int max) {
     int choice = getValidInteger();
     while (choice <= 0 || choice > max) {
@@ -66,7 +65,7 @@ public class Main {
     }
     return choice;
   }
-
+  // A function to prevent user from inputing invalid integer type value
   public static int getValidInteger() {
     int input = 0;
     boolean flag;
@@ -82,7 +81,7 @@ public class Main {
     } while (flag);
     return input;
   }
-
+  // A function to prevent user to input invalid double type value
   public static double getValidDouble() {
     double input = 0;
     boolean flag;
