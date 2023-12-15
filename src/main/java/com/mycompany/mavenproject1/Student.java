@@ -7,7 +7,7 @@ package com.mycompany.mavenproject1;
 import java.util.Scanner;
 
 /**
- * @author 
+ * @author rcurzon
  */
 public class Student {
 
@@ -22,9 +22,7 @@ public class Student {
     this.m_grade = grade;
     this.m_email = email;
   }
-  /*
-    we made getter, setter, and updater methods for the operation of our object
-  */
+
   public int getId() {
     return this.m_id;
   }
@@ -78,10 +76,10 @@ public class Student {
     String email = scanner.next();
     setEmail(email);
   }
-  //print the details of th student
+  
   @Override
   public String toString() {
-    return "Student ID: "
+    return "\nStudent ID: "
         + this.getId()
         + "\nName: "
         + this.getName()
@@ -89,6 +87,6 @@ public class Student {
         + this.m_grade
         + "\nEmail: "
         + this.m_email
-        + "\n";
+        ;
   }
 }
