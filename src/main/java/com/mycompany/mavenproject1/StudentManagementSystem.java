@@ -63,8 +63,8 @@ public class StudentManagementSystem {
   }
   // music
   public void updateStudentInformationById() {
-    System.out.println("Enter to modify only one field to student. ");
-    System.out.println("Enter any key to modify multiple field.");
+    System.out.println("Enter to modify only one field to a student.");
+    System.out.println("Enter any key to modify multiple field to a student.");
     do {
       if (enterToContinue()) {
         updateSingleStudentInformation();
@@ -129,7 +129,7 @@ public class StudentManagementSystem {
 
       if (hm.containsKey(id)) {
         hm.remove(id);
-        System.out.printf("Student %d successfully deleted!", id);
+        System.out.printf("Student %d successfully deleted!\n", id);
       } else System.out.println("Student not found!");
     }while(enterToContinue());
   }
