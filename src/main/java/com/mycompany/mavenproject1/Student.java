@@ -79,7 +79,7 @@ public class Student {
   
   @Override
   public String toString() {
-    return "\nStudent ID: "
+    return "Student ID: "
         + this.getId()
         + "\nName: "
         + this.getName()
@@ -87,6 +87,6 @@ public class Student {
         + this.m_grade
         + "\nEmail: "
         + this.m_email
-        ;
+        +'\n';
   }
 }

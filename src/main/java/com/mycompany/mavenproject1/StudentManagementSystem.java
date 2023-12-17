@@ -29,25 +29,24 @@ public class StudentManagementSystem {
       String email = scanner.next();
 
       hm.put(id, new Student(id, name, grade, email));
-      System.out.println("Student " + id + " has been added.");
+      System.out.println("Student " + id + " added succesfully!");
     } while (enterToContinue());
   }
 
   public void printAllStudents() {
     Iterator<Integer> i = hm.keySet().iterator();
 
-    System.out.println("All Students:");
+    System.out.println("All Students: \n");
 
     if (!i.hasNext()) {
       System.out.println("List is empty!");
       return;
     }
-    
+
     while (i.hasNext()) {
       int key = (int) i.next();
       System.out.println(hm.get(key));
     }
-    System.out.println();
   }
 
   public void searchStudentById() {
@@ -57,6 +56,7 @@ public class StudentManagementSystem {
       int id = Main.getValidInteger();
 
       if (hm.containsKey(id)) {
+        System.out.println("Student found: ");
         System.out.println(hm.get(id));
       } else System.out.println("Student not found!!");
     } while (enterToContinue());
@@ -80,6 +80,7 @@ public class StudentManagementSystem {
         student.updateName();
         student.updateGrade();
         student.updateEmail();
+        System.out.println("Student information updated successfully!");
       }
     } while (enterToContinue());
   }
@@ -113,15 +114,14 @@ public class StudentManagementSystem {
           default:
             break;
         }
-
-        System.out.println("Changes applied");
+        System.out.println("Student information updated successfully!");
       } else System.out.println("Student not found!");
     } while (enterToContinue());
   }
 
   public void deleteStudentById() {
 
-    do{
+    do {
 
       System.out.print("Enter Student ID to delete: ");
 
@@ -129,9 +129,9 @@ public class StudentManagementSystem {
 
       if (hm.containsKey(id)) {
         hm.remove(id);
-        System.out.printf("Student %d successfully deleted!\n", id);
+        System.out.printf("Student %d deleted succesfully!\n", id);
       } else System.out.println("Student not found!");
-    }while(enterToContinue());
+    } while (enterToContinue());
   }
 
   public int setAvailableId() {
@@ -151,7 +151,6 @@ public class StudentManagementSystem {
     return id;
   }
 
-
   public static boolean enterToContinue() {
     Scanner scanner = new Scanner(System.in);
 
@@ -166,7 +165,9 @@ public class StudentManagementSystem {
 
   public void testAddStudent() {
     hm.put(123, new Student(123, "John Pega", 99, "johnpega@gmail.com"));
-    hm.put(456, new Student(456, "Nica Jerusalem", 99, "nica@gmail.com"));
+    hm.put(456, new Student(456, "Nica Jerusalem", 95, "nica@gmail.com"));
     hm.put(891, new Student(891, "Maui Sabayan", 99, "maui@gmail.com"));
+    hm.put(789, new Student(789, "Twinkle Hipolito", 91, "twinkle@gmail.com"));
+    hm.put(000, new Student(000, "Zero", 00, "zero0@gmail.com"));  
   }
 }
