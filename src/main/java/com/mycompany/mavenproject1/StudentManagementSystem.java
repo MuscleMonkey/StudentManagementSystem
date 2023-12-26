@@ -4,6 +4,10 @@
  */
 package com.mycompany.mavenproject1;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -13,8 +17,18 @@ import java.util.Scanner;
  */
 public class StudentManagementSystem {
   private static final HashMap<Integer, Student> hm = new HashMap<>();
+  Connection connection;
 
-  public StudentManagementSystem() {}
+  public StudentManagementSystem() {
+
+    try {
+      connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/student", "root", "");
+      System.out.println("Database succesfully connected!");
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+      System.out.println("Database failed to connect!");
+    }
+  }
 
   public void addStudent() {
     do {
@@ -163,11 +177,34 @@ public class StudentManagementSystem {
     return true;
   }
 
-  public void testAddStudent() {
+  public void testAddStudent() throws SQLException {
+        
     hm.put(123, new Student(123, "John Pega", 99, "johnpega@gmail.com"));
     hm.put(456, new Student(456, "Nica Jerusalem", 95, "nica@gmail.com"));
     hm.put(891, new Student(891, "Maui Sabayan", 99, "maui@gmail.com"));
     hm.put(789, new Student(789, "Twinkle Hipolito", 91, "twinkle@gmail.com"));
-    hm.put(000, new Student(000, "Zero", 00, "zero0@gmail.com"));  
+    hm.put(000, new Student(000, "Zero", 00, "zero0@gmail.com"));
+    testSql();
+  }
+  
+  public void testSql() throws SQLException {
+    Iterator<Integer> i = hm.keySet().iterator();
+
+    if (!i.hasNext()) {
+      return;
+    }
+
+    while (i.hasNext()) {
+      int key = (int) i.next();
+      PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO students VALUES(?,?,?,?)");
+
+      preparedStatement.setInt(1, hm.get(key).getId());
+      preparedStatement.setString(2, hm.get(key).getName());
+      preparedStatement.setDouble(3, hm.get(key).getGrade());
+      preparedStatement.setString(4, hm.get(key).getEmail());
+      
+      preparedStatement.executeUpdate();
+      System.out.println("Data inserted succesfully");
+    }
   }
 }

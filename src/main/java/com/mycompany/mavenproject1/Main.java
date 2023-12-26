@@ -3,23 +3,23 @@
  */
 package com.mycompany.mavenproject1;
 
+import java.sql.SQLException;
 import java.util.Scanner;
-
 /**
  * @author rcurzon
  */
 public class Main {
-  public Main() {
-    //    getConnection();
+  public Main() throws SQLException {
     printMainMenu();
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws SQLException {
     Main main = new Main();
+    
     new StudentManagementSystem().testAddStudent();
   }
 
-  public static void printMainMenu() {
+  public static void printMainMenu() throws SQLException {
     StudentManagementSystem sms = new StudentManagementSystem();
     sms.testAddStudent();
     while (true) {
