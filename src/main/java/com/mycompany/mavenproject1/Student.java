@@ -16,7 +16,7 @@ public class Student {
   private double m_grade;
   private String m_email;
 
-  public Student(int id, String name, double grade, String email) {
+  private Student(int id, String name, double grade, String email) {
     this.m_id = id;
     this.m_name = name;
     this.m_grade = grade;
@@ -77,12 +77,15 @@ public class Student {
     setEmail(email);
   }
   
+  public static Student createStudent(int id, String name, int grade, String email) {
+    return new Student(id, name, grade, email);
+  }
   @Override
   public String toString() {
     return "Student ID: "
-        + this.getId()
+        + this.m_id
         + "\nName: "
-        + this.getName()
+        + this.m_name
         + "\nGrade: "
         + this.m_grade
         + "\nEmail: "

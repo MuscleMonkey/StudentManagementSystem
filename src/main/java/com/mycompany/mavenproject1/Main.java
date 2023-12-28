@@ -3,25 +3,19 @@
  */
 package com.mycompany.mavenproject1;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 /**
  * @author rcurzon
  */
 public class Main {
-  public Main() throws SQLException {
-    printMainMenu();
+
+  public static void main(String[] args) {
+    Database.createConnection();
+    printMainMenu();    
   }
 
-  public static void main(String[] args) throws SQLException {
-    Main main = new Main();
-    
-    new StudentManagementSystem().testAddStudent();
-  }
-
-  public static void printMainMenu() throws SQLException {
-    StudentManagementSystem sms = new StudentManagementSystem();
-    sms.testAddStudent();
+  public static void printMainMenu() {
+    StudentManagementSystem.testAddStudent();
     while (true) {
       System.out.println("Student Management System");
       System.out.println("1. Add Student");
@@ -36,19 +30,19 @@ public class Main {
 
       switch (choice) {
         case 1:
-          sms.addStudent();
+          StudentManagementSystem.addStudent();
           break;
         case 2:
-          sms.printAllStudents();
+          StudentManagementSystem.printAllStudents();
           break;
         case 3:
-          sms.searchStudentById();
+          StudentManagementSystem.searchStudentById();
           break;
         case 4:
-          sms.updateStudentInformationById();
+          StudentManagementSystem.updateStudentInformationById();
           break;
         case 5:
-          sms.deleteStudentById();
+          StudentManagementSystem.deleteStudentById();
           break;
         case 6:
           System.out.println("Exiting the program. Goodbye!");
