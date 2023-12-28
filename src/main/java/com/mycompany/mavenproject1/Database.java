@@ -14,10 +14,11 @@ public class Database {
   private Database() {}
 
   public static Connection createConnection() {
-   
+
     try {
-      Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/studentSchema", "admin", "");
-      System.out.println("Connected to database");
+      Connection connection =
+          DriverManager.getConnection("jdbc:mysql://localhost:3306/studentSchema", "admin", "");
+      System.out.println("Database connected!");
       return connection;
     } catch (SQLException e) {
       System.out.println(e.getMessage());
@@ -30,7 +31,8 @@ public class Database {
     try {
       Connection connection = createConnection();
       PreparedStatement preparedStatement =
-          connection.prepareStatement("INSERT INTO student(studentId, studentName, studentGrade, studentEmail) VALUES(?,?,?,?)");
+          connection.prepareStatement(
+              "INSERT INTO student(studentId, studentName, studentGrade, studentEmail) VALUES(?,?,?,?)");
       preparedStatement.setInt(1, id);
       preparedStatement.setString(2, name);
       preparedStatement.setInt(3, grade);
@@ -57,13 +59,43 @@ public class Database {
       System.out.println("There is error when deleting!");
     }
   }
-  
-  public static void updateSingleField(int id, <T> update) {
+
+  public static void updateName(int id, String name) {
     try {
       Connection connection = createConnection();
-    PreparedStatement preparedStatement = connection.prepareStatement("ALTER TABLE student WHERE studentId = ?");
-      preparedStatement.setString(1, update);
+      PreparedStatement preparedStatement =
+          connection.prepareStatement("UPDATE student SET studentName = ? WHERE studentId = ? ");
+      preparedStatement.setString(1, name);
+      preparedStatement.setInt(2, id);
+      preparedStatement.executeUpdate();
     } catch (SQLException e) {
+      System.out.println("Error happened in updating name.");
+      System.out.println(e.getMessage());
     }
+  }
+
+  
+
+  public static void updateEmail(int id, String email) {
+    try {
+      Connection connection = createConnection();
+      PreparedStatement preparedStatement = connection.prepareStatement("UPDATE student SET studentEmail = ? WHERE studentId = ?");
+      preparedStatement.setString(1, email);
+      preparedStatement.setInt(2, id);
+    } catch (SQLException e) {
+      System.out.println("Error happened in updating Email");
+    }
+  }
+  
+  public static void updateGrade(int id, double grade) {
+    try {
+      Connection connection = createConnection();
+      PreparedStatement preparedStatement = connection.prepareStatement("UPDATE student SET studentGrade = ? WHERE studentId = ?");
+      preparedStatement.setInt(1, id);
+      preparedStatement.setDouble(2, grade);
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    
   }
 }

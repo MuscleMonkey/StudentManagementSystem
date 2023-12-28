@@ -43,8 +43,9 @@ public class Student {
     Scanner scanner = new Scanner(System.in);
     System.out.print("Enter updated Name: ");
     String name = scanner.nextLine();
-
-    setName(name);
+    
+    Database.updateName(this.m_id, name);
+    this.setName(name);
   }
 
   public double getGrade() {
@@ -59,7 +60,8 @@ public class Student {
     System.out.print("Enter updated Grade: ");
     double grade = Main.getValidDouble();
 
-    setGrade(grade);
+    Database.updateGrade(this.m_id, grade);
+    this.setGrade(grade);
   }
 
   public String getEmail() {
@@ -74,7 +76,9 @@ public class Student {
     Scanner scanner = new Scanner(System.in);
     System.out.print("Enter updated Email: ");
     String email = scanner.next();
-    setEmail(email);
+
+    Database.updateEmail(this.m_id, email);
+    this.setEmail(email);
   }
   
   public static Student createStudent(int id, String name, int grade, String email) {
