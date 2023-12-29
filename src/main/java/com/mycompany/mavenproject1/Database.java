@@ -10,26 +10,22 @@ import java.sql.*;
  * @author rcurzon
  */
 public class Database {
+  private static Connection connection = null;
 
-  private Database() {}
-
-  public static Connection createConnection() {
+  public Database() {
 
     try {
-      Connection connection =
+      connection =
           DriverManager.getConnection("jdbc:mysql://localhost:3306/studentSchema", "admin", "");
       System.out.println("Database connected!");
-      return connection;
     } catch (SQLException e) {
       System.out.println(e.getMessage());
       System.out.println("Failed to connect to database");
-      return null;
     }
   }
 
   public static void insert(int id, String name, int grade, String email) {
     try {
-      Connection connection = createConnection();
       PreparedStatement preparedStatement =
           connection.prepareStatement(
               "INSERT INTO student(studentId, studentName, studentGrade, studentEmail) VALUES(?,?,?,?)");
@@ -47,7 +43,6 @@ public class Database {
 
   public static void delete(int id) {
     try {
-      Connection connection = createConnection();
       PreparedStatement preparedStatement =
           connection.prepareStatement("DELETE FROM student WHERE studentId = ?");
       preparedStatement.setInt(1, id);
@@ -62,7 +57,6 @@ public class Database {
 
   public static void updateName(int id, String name) {
     try {
-      Connection connection = createConnection();
       PreparedStatement preparedStatement =
           connection.prepareStatement("UPDATE student SET studentName = ? WHERE studentId = ? ");
       preparedStatement.setString(1, name);
@@ -74,28 +68,25 @@ public class Database {
     }
   }
 
-  
-
   public static void updateEmail(int id, String email) {
     try {
-      Connection connection = createConnection();
-      PreparedStatement preparedStatement = connection.prepareStatement("UPDATE student SET studentEmail = ? WHERE studentId = ?");
+      PreparedStatement preparedStatement =
+          connection.prepareStatement("UPDATE student SET studentEmail = ? WHERE studentId = ?");
       preparedStatement.setString(1, email);
       preparedStatement.setInt(2, id);
     } catch (SQLException e) {
       System.out.println("Error happened in updating Email");
     }
   }
-  
+
   public static void updateGrade(int id, double grade) {
     try {
-      Connection connection = createConnection();
-      PreparedStatement preparedStatement = connection.prepareStatement("UPDATE student SET studentGrade = ? WHERE studentId = ?");
+      PreparedStatement preparedStatement =
+          connection.prepareStatement("UPDATE student SET studentGrade = ? WHERE studentId = ?");
       preparedStatement.setInt(1, id);
       preparedStatement.setDouble(2, grade);
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
-    
   }
 }

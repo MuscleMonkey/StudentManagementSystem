@@ -4,9 +4,6 @@
  */
 package com.mycompany.mavenproject1;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -16,8 +13,9 @@ import java.util.Scanner;
  */
 public class StudentManagementSystem {
   private static final HashMap<Integer, Student> hm = new HashMap<>();
-
-  public StudentManagementSystem() {}
+  private static final Database database = new Database();
+  public StudentManagementSystem() {
+  }
 
   public static void addStudent() {
     do {
@@ -31,7 +29,7 @@ public class StudentManagementSystem {
       System.out.print("Enter email: ");
       String email = scanner.next();
 
-      Database.insert(id, name, grade, email);
+      database.insert(id, name, grade, email);
       hm.put(id, Student.createStudent(id, name, grade, email));
       
       System.out.println("Student " + id + " added succesfully!");

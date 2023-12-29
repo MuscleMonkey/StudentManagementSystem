@@ -10,7 +10,6 @@ import java.util.Scanner;
  * @author rcurzon
  */
 public class Student {
-
   private int m_id;
   private String m_name;
   private double m_grade;
