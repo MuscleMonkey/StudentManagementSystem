@@ -14,7 +14,7 @@ public class Student {
   private String m_name;
   private double m_grade;
   private String m_email;
-
+  Database database = new Database();
   private Student(int id, String name, double grade, String email) {
     this.m_id = id;
     this.m_name = name;
@@ -43,7 +43,7 @@ public class Student {
     System.out.print("Enter updated Name: ");
     String name = scanner.nextLine();
     
-    Database.updateName(this.m_id, name);
+    database.updateName(this.m_id, name);
     this.setName(name);
   }
 
@@ -59,7 +59,7 @@ public class Student {
     System.out.print("Enter updated Grade: ");
     double grade = Main.getValidDouble();
 
-    Database.updateGrade(this.m_id, grade);
+    database.updateGrade(this.m_id, grade);
     this.setGrade(grade);
   }
 
@@ -76,7 +76,7 @@ public class Student {
     System.out.print("Enter updated Email: ");
     String email = scanner.next();
 
-    Database.updateEmail(this.m_id, email);
+    database.updateEmail(this.m_id, email);
     this.setEmail(email);
   }
   

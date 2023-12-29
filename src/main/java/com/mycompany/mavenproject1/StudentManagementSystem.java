@@ -4,6 +4,7 @@
  */
 package com.mycompany.mavenproject1;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -133,7 +134,7 @@ public class StudentManagementSystem {
 
       if (hm.containsKey(id)) {
         hm.remove(id);
-        Database.delete(id);
+        database.delete(id);
         System.out.printf("Student %d deleted succesfully!\n", id);
       } else System.out.println("Student not found!");
     } while (enterToContinue());
@@ -167,10 +168,15 @@ public class StudentManagementSystem {
 
   public static void testAddStudent() {
 
-    hm.put(123, Student.createStudent(123, "John Pega", 99, "johnpega@gmail.com"));
-    hm.put(456, Student.createStudent(456, "Nica Jerusalem", 95, "nica@gmail.com"));
-    hm.put(891, Student.createStudent(891, "Maui Sabayan", 99, "maui@gmail.com"));
-    hm.put(789, Student.createStudent(789, "Twinkle Hipolito", 91, "twinkle@gmail.com"));
-    hm.put(000, Student.createStudent(000, "Zero", 00, "zero0@gmail.com"));
+    ArrayList<Student> studentsList = new ArrayList();
+    studentsList.add(Student.createStudent(123, "John Pega", 99, "johnpega@gmail.com"));
+    studentsList.add(Student.createStudent(456, "Nica Jerusalem", 95, "nica@gmail.com"));
+    studentsList.add( Student.createStudent(891, "Maui Sabayan", 99, "maui@gmail.com"));
+    studentsList.add(Student.createStudent(789, "Twinkle Hipolito", 91, "twinkle@gmail.com"));
+    
+   for (Student student : studentsList) {
+     hm.put(student.getId(), student);
+     database.insert(student.getId(), student.getName(), student.getGrade(), student.getEmail());
+   }
   }
 }
