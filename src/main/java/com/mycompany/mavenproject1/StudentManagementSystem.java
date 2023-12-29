@@ -166,17 +166,9 @@ public class StudentManagementSystem {
     return input.equals("");
   }
 
-  public static void testAddStudent() {
-
-    ArrayList<Student> studentsList = new ArrayList();
-    studentsList.add(Student.createStudent(123, "John Pega", 99, "johnpega@gmail.com"));
-    studentsList.add(Student.createStudent(456, "Nica Jerusalem", 95, "nica@gmail.com"));
-    studentsList.add( Student.createStudent(891, "Maui Sabayan", 99, "maui@gmail.com"));
-    studentsList.add(Student.createStudent(789, "Twinkle Hipolito", 91, "twinkle@gmail.com"));
-    
-   for (Student student : studentsList) {
-     hm.put(student.getId(), student);
-     database.insert(student.getId(), student.getName(), student.getGrade(), student.getEmail());
-   }
+  public static void populate(ArrayList<Student> students) {
+    for (Student student : students) {
+      hm.put(student.getId(),student);
+    }
   }
 }

@@ -3,19 +3,21 @@
  */
 package com.mycompany.mavenproject1;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Scanner;
 /**
  * @author rcurzon
  */
 public class Main {
 
-  public static void main(String[] args) {
-    new Database();
+  public static void main(String[] args) throws SQLException {
+    Connection connection = Database.createConnection();
+    StudentManagementSystem.populate(Database.retrieveTable(connection));
     printMainMenu();
   }
 
   public static void printMainMenu() {
-    StudentManagementSystem.testAddStudent();
     while (true) {
       System.out.println("Student Management System");
       System.out.println("1. Add Student");

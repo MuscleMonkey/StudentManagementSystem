@@ -6,6 +6,7 @@
 package com.mycompany.mavenproject1;
 
 import java.sql.*;
+import java.util.ArrayList;
 /**
  * @author rcurzon
  */
@@ -23,7 +24,20 @@ public class Database {
       System.out.println("Failed to connect to database");
     }
   }
-
+  
+  public static Connection createConnection() {
+    Connection connection = null; 
+    try {
+      connection =
+          DriverManager.getConnection(
+              "jdbc:mysql://localhost:3306/StudentManagementSystemDatabase", "admin", "3187");
+      System.out.println("Retrieving successful");
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+      System.out.println("Failed to connect to database");
+    }
+    return connection;
+  }
   public void insert(int id, String name, double grade, String email) {
     String firstName = name.substring(0, name.indexOf(" "));
     String lastName = name.substring(name.indexOf(" ") + 1);
@@ -96,5 +110,24 @@ public class Database {
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
+  }
+  public static ArrayList<Student> retrieveTable(Connection connection) throws SQLException {
+    String query = "select * from Students;";
+    ArrayList<Student> students = new ArrayList<>();
+    
+    try (Statement stmt = connection.createStatement()) {
+      ResultSet rs = stmt.executeQuery(query);
+      while (rs.next()) {
+        int StudentId = rs.getInt(2);
+        String StudentName = rs.getString(3) + rs.getString(4);
+        int StudentGrade = rs.getInt(5);
+        String StudentEmail = rs.getString(6);
+        System.out.println(StudentId + " " + StudentName + " " + StudentGrade + " " + StudentEmail + " ");
+        students.add(Student.createStudent(StudentId, StudentName, StudentGrade, StudentEmail));
+      }
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    return students;
   }
 }
