@@ -122,12 +122,13 @@ public class Database {
         String StudentName = rs.getString(3) + rs.getString(4);
         int StudentGrade = rs.getInt(5);
         String StudentEmail = rs.getString(6);
-        System.out.println(StudentId + " " + StudentName + " " + StudentGrade + " " + StudentEmail + " ");
+//        System.out.println(StudentId + " " + StudentName + " " + StudentGrade + " " + StudentEmail + " ");
         students.add(Student.createStudent(StudentId, StudentName, StudentGrade, StudentEmail));
       }
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
+    StudentManagementSystem.displayListKeys();
     return students;
   }
 }
