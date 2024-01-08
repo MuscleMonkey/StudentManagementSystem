@@ -1,4 +1,5 @@
 com/mycompany/mavenproject1/Main.class
 com/mycompany/mavenproject1/Database.class
+com/mycompany/mavenproject1/StudentSerializer.class
 com/mycompany/mavenproject1/StudentManagementSystem.class
 com/mycompany/mavenproject1/Student.class

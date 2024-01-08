@@ -4,26 +4,42 @@
  */
 package com.mycompany.mavenproject1;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.cfg.MapperConfig;
+import com.fasterxml.jackson.databind.ser.std.MapSerializer;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
  * @author rcurzon
  */
 public class StudentManagementSystem {
+
     private static final HashMap<Integer, Student> hm = new HashMap<>();
 
-    public StudentManagementSystem() {}
+    public StudentManagementSystem() {
+    }
 
-    public static void addStudent() {
+    @JsonSerialize(keyUsing = MapSerializer.class)
+    static Map<String, Student> map;
+
+    @JsonSerialize(keyUsing = StudentSerializer.class)
+    static String mapKey;
+
+    @JsonSerialize(keyUsing = StudentSerializer.class)
+    static Student mapValue;
+
+    public static void addStudent() throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        File file = new File("student.txt");
+        ObjectMapper mapper = new ObjectMapper();
         do {
-            Scanner scanner = new Scanner(System.in);
             System.out.print("Enter Id: ");
             int id = setAvailableId();
             System.out.print("Enter name: ");
@@ -31,13 +47,17 @@ public class StudentManagementSystem {
             System.out.print("Enter grade: ");
             int grade = Main.getValidInteger();
             System.out.print("Enter email: ");
-            String email = scanner.next();
+            String email = scanner.nextLine();
 
             hm.put(id, Student.createStudent(id, name, grade, email));
-
+            mapKey = name;
+            mapValue = Student.createStudent(id, name, grade, email);
+            mapper.writeValue(file, map);
+            String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
+            System.out.println(jsonString);
             System.out.println("Student " + id + " added succesfully!");
             System.out.println("Enter any key to continue...");
-        } while (enterToContinue());
+        } while (enterAnyKeyToContinue());
     }
 
     public static void printAllStudents() {
@@ -65,9 +85,11 @@ public class StudentManagementSystem {
             if (hm.containsKey(id)) {
                 System.out.println("Student found: ");
                 System.out.println(hm.get(id));
-            } else System.out.println("Student not found!!");
+            } else {
+                System.out.println("Student not found!!");
+            }
             System.out.println("Enter any key to continue...");
-        } while (enterToContinue());
+        } while (enterAnyKeyToContinue());
     }
 
     public static void updateStudentInformationById() {
@@ -75,7 +97,7 @@ public class StudentManagementSystem {
         System.out.println("Enter any key to modify multiple field to a student.");
         do {
             System.out.println("Choice: ");
-            if (enterToContinue()) {
+            if (enterAnyKeyToContinue()) {
                 updateSingleStudentInformation();
                 break;
             }
@@ -92,7 +114,7 @@ public class StudentManagementSystem {
                 System.out.println("Student information updated successfully!");
             }
             System.out.println("Enter any key to continue...");
-        } while (enterToContinue());
+        } while (enterAnyKeyToContinue());
     }
 
     public static void updateSingleStudentInformation() {
@@ -125,9 +147,11 @@ public class StudentManagementSystem {
                         break;
                 }
                 System.out.println("Student information updated successfully!");
-            } else System.out.println("Student not found!");
+            } else {
+                System.out.println("Student not found!");
+            }
             System.out.println("Enter any key to continue...");
-        } while (enterToContinue());
+        } while (enterAnyKeyToContinue());
     }
 
     public static void deleteStudentById() {
@@ -142,9 +166,11 @@ public class StudentManagementSystem {
                 hm.remove(id);
 
                 System.out.printf("Student %d deleted succesfully!\n", id);
-            } else System.out.println("Student not found!");
+            } else {
+                System.out.println("Student not found!");
+            }
             System.out.println("Enter any key to continue...");
-        } while (enterToContinue());
+        } while (enterAnyKeyToContinue());
     }
 
     public static int setAvailableId() {
@@ -164,64 +190,21 @@ public class StudentManagementSystem {
         return id;
     }
 
-    public static boolean enterToContinue() {
+    public static boolean enterAnyKeyToContinue() {
         Scanner scanner = new Scanner(System.in);
-        
         String input = scanner.nextLine();
 
         return !input.equals("");
     }
 
-    public static void saveChangesToText(String fileName) {
-        System.out.println("Enter any key to save changes: ");
-        if (!enterToContinue()) return;
+    public static void saveChangesToText(String fileName) throws IOException {
+        File file = new File(fileName);
+        ObjectMapper mapper = new ObjectMapper();
 
-        // open file then write to file
-        File file;
-        FileWriter writer;
-        try {
-            file = new File(fileName);
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            writer = new FileWriter(file);
-            String details = "";
-            for (int key : hm.keySet()) {
-                Student student = hm.get(key);
-                int id = student.getId();
-                double grade = student.getGrade();
-                String name = student.getName(), email = student.getEmail();
-                details += String.join("-", String.valueOf(id), name, String.valueOf(grade), email);
-                writer.write(details);
-            }
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("An error occured.");
-            System.out.println(e.getMessage());
-        }
+//        mapKey = 
     }
 
-    public static void populate(String fileTxt) {
-        File file;
-        Scanner reader;
-
-        try {
-            file = new File(fileTxt);
-            if (!file.exists()) return;
-            reader = new Scanner(file);
-            while (reader.hasNextLine()) {
-                String[] studentDetails = reader.nextLine().split("-");
-                System.out.println(Arrays.toString(studentDetails));
-                int id = Integer.parseInt(studentDetails[0]);
-                double grade = Double.parseDouble(studentDetails[2]);
-                String name = studentDetails[1], email = studentDetails[3];
-                hm.put(id, Student.createStudent(id, name, grade, email));
-            }
-            reader.close();
-        } catch (FileNotFoundException | NumberFormatException e) {
-            System.out.println(e.getMessage());
-        }
-        
+    public static void populate(String fileTxt) throws FileNotFoundException, IOException {
     }
 
     public static long getListCount() {

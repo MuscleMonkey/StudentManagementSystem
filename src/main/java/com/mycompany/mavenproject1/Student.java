@@ -4,12 +4,14 @@
  */
 package com.mycompany.mavenproject1;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Scanner;
 
 /**
  * @author rcurzon
  */
 public class Student {
+
     private int m_id;
     private String m_name;
     private double m_grade;
@@ -82,15 +84,15 @@ public class Student {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return "Student ID: "
                 + this.m_id
-                + "\nName: "
+                + "Name: "
                 + this.m_name
-                + "\nGrade: "
+                + "Grade: "
                 + this.m_grade
-                + "\nEmail: "
-                + this.m_email
-                + '\n';
+                + "Email: "
+                + this.m_email;
     }
 }

@@ -3,8 +3,9 @@
  */
 package com.mycompany.mavenproject1;
 
-import java.sql.SQLException;
+import java.io.IOException;
 import java.util.Scanner;
+
 /**
  * F
  *
@@ -12,14 +13,15 @@ import java.util.Scanner;
  */
 public class Main {
 
-    public static void main(String[] args) throws SQLException {
-        StudentManagementSystem.populate("students.txt");
+    public static void main(String[] args) throws IOException {
+//        StudentManagementSystem.populate("newStudent.txt");
         StudentManagementSystem.addStudent();
-        StudentManagementSystem.saveChangesToText("students.txt");
+//        StudentManagementSystem.printAllStudents();
+        StudentManagementSystem.saveChangesToText("students");
 //        printMainMenu();
     }
 
-    public static void printMainMenu() {
+    public static void printMainMenu() throws IOException {
         while (true) {
             System.out.println("Student Management System");
             System.out.println("1. Add Student");
