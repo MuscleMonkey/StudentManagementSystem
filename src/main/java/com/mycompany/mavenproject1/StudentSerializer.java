@@ -15,15 +15,15 @@ import java.io.StringWriter;
  *
  * @author rcurzon
  */
-public class StudentSerializer extends JsonSerializer<Student>{
-    
+public class StudentSerializer extends JsonSerializer<Student> {
+
     ObjectMapper mapper = new ObjectMapper();
-    
+
     @Override
     public void serialize(Student t, JsonGenerator jg, SerializerProvider sp) throws IOException {
         StringWriter writer = new StringWriter();
         mapper.writeValue(writer, t);
         jg.writeFieldName(writer.toString());
     }
-    
+
 }

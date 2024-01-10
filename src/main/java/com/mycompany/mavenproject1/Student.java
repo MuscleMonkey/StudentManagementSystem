@@ -88,11 +88,11 @@ public class Student {
     public String toString() {
         return "Student ID: "
                 + this.m_id
-                + "Name: "
+                + ", "
                 + this.m_name
-                + "Grade: "
+                + ", "
                 + this.m_grade
-                + "Email: "
+                + ", "
                 + this.m_email;
     }
 }
