@@ -11,17 +11,19 @@ import java.util.Scanner;
  *
  * @author rcurzon
  */
+
 public class Main {
 
     public static void main(String[] args) throws IOException {
-//        StudentManagementSystem.populate("newStudent.txt");
-        StudentManagementSystem.addStudent();
-//        StudentManagementSystem.printAllStudents();
-        StudentManagementSystem.saveChangesToText("students");
+        String fileName = "student.txt";
+        StudentManagementSystem.deserialize(fileName);
+//        StudentManagementSystem.addStudent();
+//        StudentManagementSystem.serialize(fileName);
 //        printMainMenu();
     }
 
     public static void printMainMenu() throws IOException {
+
         while (true) {
             System.out.println("Student Management System");
             System.out.println("1. Add Student");
@@ -51,7 +53,7 @@ public class Main {
                     StudentManagementSystem.deleteStudentById();
                     break;
                 case 6:
-                    StudentManagementSystem.saveChangesToText("students.txt");
+                    StudentManagementSystem.serialize("students.txt");
                     System.out.println("Exiting the program. Goodbye!");
                     return;
                 default:
@@ -62,16 +64,19 @@ public class Main {
 
     public static int validChoice(int max) {
         int choice = getValidInteger();
+
         while (choice <= 0 || choice > max) {
             System.out.print("please enter valid choice : ");
             choice = getValidInteger();
         }
+
         return choice;
     }
 
     public static int getValidInteger() {
         int input = 0;
         boolean flag;
+
         do {
             try {
                 Scanner scanner = new Scanner(System.in);
@@ -82,12 +87,14 @@ public class Main {
                 flag = true;
             }
         } while (flag);
+
         return input;
     }
 
     public static double getValidDouble() {
         double input = 0;
         boolean flag;
+
         do {
             try {
                 Scanner scanner = new Scanner(System.in);
@@ -98,6 +105,7 @@ public class Main {
                 flag = true;
             }
         } while (flag);
+
         return input;
     }
 }

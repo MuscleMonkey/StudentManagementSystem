@@ -1,5 +1,7 @@
-/home/rcurzon/NetBeansProjects/StudentManagementSystem/src/main/java/com/mycompany/mavenproject1/Database.java
-/home/rcurzon/NetBeansProjects/StudentManagementSystem/src/main/java/com/mycompany/mavenproject1/Student.java
-/home/rcurzon/NetBeansProjects/StudentManagementSystem/src/main/java/com/mycompany/mavenproject1/Main.java
-/home/rcurzon/NetBeansProjects/StudentManagementSystem/src/main/java/com/mycompany/mavenproject1/StudentManagementSystem.java
-/home/rcurzon/NetBeansProjects/StudentManagementSystem/src/main/java/com/mycompany/mavenproject1/StudentSerializer.java
+/data/banana/StudentManagementSystem/src/main/java/com/mycompany/mavenproject1/StudentSerializer.java
+/data/banana/StudentManagementSystem/src/main/java/com/mycompany/mavenproject1/Database.java
+/data/banana/StudentManagementSystem/src/main/java/com/mycompany/mavenproject1/ClassWithAMap.java
+/data/banana/StudentManagementSystem/src/main/java/com/mycompany/mavenproject1/StudentDeserializer.java
+/data/banana/StudentManagementSystem/src/main/java/com/mycompany/mavenproject1/Student.java
+/data/banana/StudentManagementSystem/src/main/java/com/mycompany/mavenproject1/StudentManagementSystem.java
+/data/banana/StudentManagementSystem/src/main/java/com/mycompany/mavenproject1/Main.java

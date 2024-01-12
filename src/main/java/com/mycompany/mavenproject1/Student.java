@@ -4,6 +4,7 @@
  */
 package com.mycompany.mavenproject1;
 
+import com.fasterxml.jackson.annotation.JsonKey;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Scanner;
 
@@ -12,18 +13,29 @@ import java.util.Scanner;
  */
 public class Student {
 
-    private int m_id;
+    
     private String m_name;
     private double m_grade;
     private String m_email;
-
+    
+    @JsonKey
+    private int m_id;
+    
     private Student(int id, String name, double grade, String email) {
         this.m_id = id;
         this.m_name = name;
         this.m_grade = grade;
         this.m_email = email;
     }
-
+    
+    public Student(String student) {
+        String[] details = student.split("-");
+        this.m_id = Integer.parseInt(details[0]);
+        this.m_name = details[1].trim();
+        this.m_grade = Double.parseDouble(details[2]);
+        this.m_email = details[3].trim();
+    }
+    
     public int getId() {
         return this.m_id;
     }
@@ -46,6 +58,7 @@ public class Student {
         String name = scanner.nextLine();
 
         this.setName(name);
+
     }
 
     public double getGrade() {
@@ -59,7 +72,6 @@ public class Student {
     public void updateGrade() {
         System.out.print("Enter updated Grade: ");
         double grade = Main.getValidDouble();
-
         this.setGrade(grade);
     }
 
@@ -75,7 +87,6 @@ public class Student {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter updated Email: ");
         String email = scanner.next();
-
         this.setEmail(email);
     }
 
@@ -86,13 +97,12 @@ public class Student {
     @Override
     @JsonValue
     public String toString() {
-        return "Student ID: "
-                + this.m_id
-                + ", "
+        return this.m_id
+                + " "
                 + this.m_name
-                + ", "
+                + " "
                 + this.m_grade
-                + ", "
+                + " "
                 + this.m_email;
     }
 }

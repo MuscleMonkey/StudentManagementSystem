@@ -16,7 +16,6 @@ import java.io.StringWriter;
  * @author rcurzon
  */
 public class StudentSerializer extends JsonSerializer<Student> {
-
     ObjectMapper mapper = new ObjectMapper();
 
     @Override
