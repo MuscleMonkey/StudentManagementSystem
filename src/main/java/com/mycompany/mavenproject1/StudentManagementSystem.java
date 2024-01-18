@@ -6,15 +6,10 @@ package com.mycompany.mavenproject1;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.cfg.MapperConfig;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,19 +25,18 @@ public class StudentManagementSystem {
 
     @JsonProperty("map")
     @JsonDeserialize(keyUsing = StudentDeserializer.class)
-    private static Map<Integer, Student> hm;
-    
+    private static Map<Integer, Student> hm = new HashMap<>();
+
     @JsonCreator
     public StudentManagementSystem(Map<Integer, Student> map) {
-        this.hm = map;
+        hm = map;
     }
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     public static void addStudent() throws IOException {
         Scanner scanner = new Scanner(System.in);
-        ObjectMapper mapper = new ObjectMapper();
-
+        
         do {
             System.out.print("Enter Id: ");
             int id = setAvailableId();
@@ -59,12 +53,6 @@ public class StudentManagementSystem {
             System.out.println("Student " + id + " added succesfully!");
             System.out.println("Enter any key to continue...");
         } while (enterAnyKeyToContinue());
-        String serializedValue = OBJECT_MAPPER.writeValueAsString(hm);
-        System.out.println(serializedValue);
-//        String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
-//        System.out.println(jsonString);
-//        Path file = Paths.get("student.txt");
-//        Files.write(file, Arrays.asList(jsonString), StandardCharsets.UTF_8, StandardOpenOption.APPEND);
     }
 
     public static void printAllStudents() {
@@ -216,31 +204,16 @@ public class StudentManagementSystem {
     }
 
     public static void serialize(String fileName) throws IOException {
-        File file = new File(fileName);
-        String serializeValue = OBJECT_MAPPER.writeValueAsString(hm);
-        System.out.println(serializeValue);
-//        mapKey = 
+        String serializeHm = OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(hm);
+        Path file = Paths.get(fileName);
+        byte[] strToBytes = serializeHm.getBytes();
+        Files.write(file, strToBytes);
+    
     }
 
     public static void deserialize(String fileTxt) throws FileNotFoundException, IOException {
-//        String content = Files.readString(Paths.get("student.txt"));
-        
+        String content = Files.readString(Paths.get("student.txt"));
         ObjectMapper mapper = new ObjectMapper();
-        String content = "{\"1\" : \"1-1-1.0-1\"}";
-//        StudentManagementSystem student = mapper.readValue(content, StudentManagementSystem.class);
-//        System.out.println(student.toString());
-        
-        TypeReference<HashMap<Integer, Student>> typeRef = new TypeReference<HashMap<Integer,Student>>(){};
-        hm = mapper.readValue(content, typeRef);
-        Student studentTest = hm.get(1);
-        System.out.println(studentTest);
-    }
-
-    public static long getListCount() {
-        return hm.keySet().stream().count();
-    }
-
-    public static void displayListKeys() {
-        hm.keySet().forEach(key -> System.out.println(key));
+        StudentManagementSystem sms = mapper.readValue(content, StudentManagementSystem.class);
     }
 }

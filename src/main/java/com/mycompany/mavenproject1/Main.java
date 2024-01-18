@@ -11,19 +11,16 @@ import java.util.Scanner;
  *
  * @author rcurzon
  */
-
 public class Main {
-
-    public static void main(String[] args) throws IOException {
-        String fileName = "student.txt";
-        StudentManagementSystem.deserialize(fileName);
-//        StudentManagementSystem.addStudent();
-//        StudentManagementSystem.serialize(fileName);
-//        printMainMenu();
+    
+static String fileName = "student.txt";
+    
+public static void main(String[] args) throws IOException {
+        printMainMenu();
     }
 
     public static void printMainMenu() throws IOException {
-
+        StudentManagementSystem.deserialize(fileName);
         while (true) {
             System.out.println("Student Management System");
             System.out.println("1. Add Student");
@@ -53,7 +50,7 @@ public class Main {
                     StudentManagementSystem.deleteStudentById();
                     break;
                 case 6:
-                    StudentManagementSystem.serialize("students.txt");
+                    StudentManagementSystem.serialize(fileName);
                     System.out.println("Exiting the program. Goodbye!");
                     return;
                 default:

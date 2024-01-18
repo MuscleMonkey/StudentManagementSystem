@@ -29,7 +29,7 @@ public class Student {
     }
     
     public Student(String student) {
-        String[] details = student.split("-");
+        String[] details = student.split(" ");
         this.m_id = Integer.parseInt(details[0]);
         this.m_name = details[1].trim();
         this.m_grade = Double.parseDouble(details[2]);
